@@ -17,53 +17,71 @@
 import java.util.Scanner;
 
 class Mahasiswa {
-    
-    Scanner daftar_mhs = new Scanner(System.in);
 
-    private String nama_mhs;
-    private String nim_mhs;
-    private String pass_mhs;
+    private String nama_mhs, nim_mhs, pass_mhs;
+    public boolean nim_req, pass_req;
 
-    public String getNama(){ return nama_mhs; }
-
-    public void setNama(String nama_mhs){ this.nama_mhs = nama_mhs; }
-
-    public String getNIM(){ return nim_mhs; }
-
-    public void setNIM(String nim_mhs){
-        if (nim_mhs.length() != 15){
-            System.out.print("Nim harus berjumlah 15 angka\nNIM : ");
-            nim_mhs = daftar_mhs.next(); setNIM(nim_mhs);
-        } else {
-            this.nim_mhs = nim_mhs;
-        }
+    public String getNama(){
+        return nama_mhs;
+    }
+    public void setNama(String nama_mhs){
+        this.nama_mhs = nama_mhs;
     }
 
-    public void setPassword(String pass_mhs){
-        if (pass_mhs.length() < 8){
-            System.out.print("Password minimal 8 karakter\nPassword : ");
-            pass_mhs = daftar_mhs.next(); setPassword(pass_mhs);
+    public String getNIM(){
+        return nim_mhs;
+    }
+    public void setNIM(String nim_mhs){
+        checkNIM(nim_mhs);
+        if (nim_req) {
+            this.nim_mhs = nim_mhs;
         } else {
-            this.pass_mhs = pass_mhs;
+            this.nim_mhs = null;
+        }
+    }
+    public void checkNIM(String nim_mhs){
+        if (nim_mhs.length() != 15){
+            nim_req = false;
+            System.out.println("Nim harus berjumlah 15 angka");
+        } else {
+            nim_req = true;
         }
     }
 
     public String getPassword(){
         return pass_mhs;
     }
+    public void setPassword(String pass_mhs){
+        checkPassword(pass_mhs);
+        if (pass_req){
+            this.pass_mhs = pass_mhs;
+        } else {
+            this.pass_mhs = null;
+        }
+    }
+    public void checkPassword(String pass_mhs){
+        if (pass_mhs.length() < 8){
+            pass_req = false;
+            System.out.println("Password minimal 8 karakter");
+        } else {
+            pass_req = true;
+        }
+    }
 
     public void daftar(){
         System.out.println("===Daftar===");
+        Scanner daftar_mhs = new Scanner(System.in);
         System.out.print("Nama : ");
-        nama_mhs = daftar_mhs.nextLine(); setNama(nama_mhs);
+        setNama(nama_mhs = daftar_mhs.nextLine());
+        do {
+            System.out.print("NIM : ");
+            setNIM(nim_mhs = daftar_mhs.next());
+        } while (!nim_req);
 
-        System.out.print("NIM : ");
-        nim_mhs = daftar_mhs.next(); setNIM(nim_mhs);
-
-        System.out.print("Password : ");
-        pass_mhs = daftar_mhs.next(); setPassword(pass_mhs);
-
-        daftar_mhs.close();
+        do {
+            System.out.print("Password : ");
+            setPassword(pass_mhs = daftar_mhs.next());
+        } while (!pass_req);
     }
 
     public void info(){
@@ -77,7 +95,6 @@ class Mahasiswa {
 public class InfoMahasiswa {
     public static void main(String[] args) {
         Mahasiswa mhs = new Mahasiswa();
-        mhs.daftar();
-        mhs.info();
+        mhs.daftar(); mhs.info();
     }
 }
