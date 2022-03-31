@@ -35,43 +35,45 @@ class Mahasiswa {
         return nama_mhs;
     }
 
-    public void setNama(){
-        System.out.print("Nama : ");
-        nama_mhs = inputData.nextLine();
+    public void setNama( String params ){
+        this.nama_mhs = params;
     }
 
     public String getNIM(){
         return nim_mhs;
     }
 
-    public void setNIM(){
-        System.out.print("NIM : ");
-        String params = inputData.next();
-        if (params.length() == 15) {
-            nim_mhs = params;
-        } else {
-            System.out.println("Nim harus berjumlah 15 angka");
-            setNIM();
-        }
+    public void setNIM( String params ){
+        this.nim_mhs = params;
     }
 
     public String getPassword(){
         return pass_mhs;
     }
 
-    public void setPassword(){
-        System.out.print("Password : ");
-        String params = inputData.next();
-        if (params.length() < 8) {
-            System.out.println("Password minimal 8 karakter");
-            setPassword();
-        } else {
-            pass_mhs = params;
-        }
+    public void setPassword(String params){
+        this.pass_mhs = params;
     }
 
     public void daftar(){
         System.out.println("===Daftar===");
-        setNama(); setNIM(); setPassword();
+        System.out.print("Nama : ");
+        setNama(inputData.nextLine());
+
+        do {
+            System.out.print("NIM : ");
+            setNIM(inputData.nextLine());
+            if (getNIM().length() != 15) {
+                System.out.println("Nim harus berjumlah 15 angka");
+            }
+        } while (getNIM().length() != 15);
+
+        do {
+            System.out.print("Password : ");
+            setPassword(inputData.nextLine());
+            if (getPassword().length() < 8) {
+                System.out.println("Password minimal 8 karakter");
+            }
+        } while (getPassword().length() < 8);
     }
 }
